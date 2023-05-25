@@ -1,5 +1,10 @@
 # FinNet: Financial network analysis in R got straight
+
+![image](https://github.com/FATelarico/FinNet/assets/100512813/11d4e248-7fb8-46a9-bb5c-f4c8a26ce585)
+
+
 author: Fabio Ashtar Telarico, University of Ljubljana, FDV
+
 version: 0.9
 
 # Introduction
