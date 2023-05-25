@@ -1,11 +1,12 @@
 # FinNet: Financial network analysis in R got straight
 
-![image](https://github.com/FATelarico/FinNet/assets/100512813/11d4e248-7fb8-46a9-bb5c-f4c8a26ce585)
-
-
 author: Fabio Ashtar Telarico, University of Ljubljana, FDV
 
 version: 0.9
+
+![Supply chaisn as a financial network.](https://github.com/FATelarico/FinNet/assets/100512813/4750186f-39d1-4ecd-b8b9-48351e26f3eb)
+Source: McVey, Henry H., 'State of Play', KKR, Mar 24, 2022, [https://www.kkr.com/node/4025](https://www.kkr.com/node/4025)
+
 
 # Introduction
 
