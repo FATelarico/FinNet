@@ -120,4 +120,4 @@ g <- FF.graph(FF, aesthetic = 'nice')
 plot_igraph_fin(g, vertex.label = NA, edge.arrow.size = .6, scale_vertex = 10)
 ```
 
-![](FinNet_files/figure-html/workflow_2-1.png)<!-- -->
+![workflow_2-1](https://github.com/FATelarico/FinNet/assets/100512813/34bc0f42-807e-4781-b727-06f9340be62c)
