@@ -1,0 +1,213 @@
+---
+title: 'Financial network analysis in R'
+subtitle: 'A new package that gets it right'
+author: |
+  | Fabio Ashtar Telarico*
+  | University of Ljubljana, FDV
+  | *Fabio-Ashtar.Telarico@fdv.uni-lj.si
+date: 'CRAN version 1.0 (Thu May 25, 2023)'
+output:
+  html_document: 
+    theme: journal
+    toc: yes
+    number_sections: yes
+    toc_float: yes
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(FinNet)
+```
+
+# Introduction
+
+There are a number of package helping users to deal with network data in `R`, most notably [`network`](https://statnet.org/) and [`igraph`](https://igraph.org/). However, these very popular R packages do not offer specific tools for working with financial networks. Yet, this is one of the frontiers of network-analysis and its application to economics (see [Haberley and Wojcik 2022](https://doi.org/10.1093/oso/9780198870982.003.0001))
+
+For years now, authors and analysts have worked on financial data using *ad-hoc* tools or programming languages other than `R`. So, the package `FinNet` was born to provide all `R` users with the ability to study financial networks with a set of tool especially designed to this purpose. Specifically, `FinNet` offers both brand new tools and an interface to the almost limitless capabilities of `igraph` and `network`.
+
+The first release of `FinNet` on both [CRAN]() and [GitHub]() introduces the backbone of this system, which will be expanded with new releases. 
+
+# Motivation
+
+Before `FinNet` there was not `R` package especially conceived for financial-network analysis on the `CRAN`. True, similar results could be achieved combining functions from several packages. However, `FinNet` allows users (mainly analysts and researchers) to focus on what matters, their analyses, and let the package take care of tedious operations and conversion.
+
+In a nutshell, `FinNet` is designed to put ease of use first.^[See full documentation: [here]().] Moreover, it allows for a very lean installation since the only required packages are included with base `R`: `grDevices` and `methods`. Yet, it is extremely flexible insofar as it allows users to leverage the capabilities of other packages available on `CRAN`:
+
+- [`igraph`](https://CRAN.R-project.org/package=igraph) or [`network`](https://CRAN.R-project.org/package=network) to interface `FinNet` with these packages;
+- [`knitr`](https://CRAN.R-project.org/package=knitr) or [`pander`](https://CRAN.R-project.org/package=pander) to print better summaries to the console;
+- [`Matrix`](https://CRAN.R-project.org/package=Matrix) to optimise the storage of relations between agents;
+- [`SPB`](https://CRAN.R-project.org/package=SPB) to get better progress bars; and
+- [`yahoofinancer`](https://CRAN.R-project.org/package=yahoofinancer) to automatically retrieve data from [Yahoo! Finance](https://finance.yahoo.com/)
+
+## Simplifying complex workflows
+
+For instance, one may be tempted to use `yahoofinancer` to retrieve financial data, [`tibble`](https://CRAN.R-project.org/package=tibble) to store the relations between agents before converting them into a `network` object and [`sna`](https://CRAN.R-project.org/package=sna) to run network-analytic tasks. However, this workflow would force users to deal with incompatible paradigms (e.g., `yahoofinancer` uses object-oriented programming, whereas `igraph` and `sna` implement procedural programming). 
+
+By contrast, `FinNet` is coherently written in following a single paradigm and a uniform style.
+
+## Extending code's life
+
+Indeed, sometimes these issues can only be solved by relying on non-`CRAN` packages (such as [`yfR`](https://github.com/ropensci/yfR)). But mix-and-matching more packages exposes scripts to the risk of becoming partly unusable -- especially if using non-`CRAN` packages.
+
+For instance, many scripts employing the popular `quantmod` [need rewriting](https://github.com/joshuaulrich/quantmod/issues/221) due to the discontinuation of the API that the package used to access Google Finance after the latter's '[renovation](https://web.archive.org/web/20180109152036/https://finance.google.com/finance?hl=en&tab=ee)'.
+
+Meanwhile, `BatchgetSymbols` - launched in 2016 and very popular - [may be moribound](https://www.r-bloggers.com/2022/03/new-r-package-yfr/) due to the introduction of `yfR`. 
+
+Thus, users cannot overlook the risk of having their carefully constructed data-to-network pipeline disrupted by the discontinuation or failure of one of its basic packages either. But with `FinNet`, the death of one of the underlying packages will not affect final users. As long as a replacement is available, an update to the package can keep all functions alive and the use of ad-hoc classes ensures backward compatibility.
+
+## Stop worrying about memory management
+
+Moreover, memory management becomes an issue while iterating over tens or even hundreds of thousands of agents or duplicating information about the agents and their relations across several formats (e.g., a large list of vector, a tibble, and a graph).
+
+By contrast, `FinNet`'s built-in classes make a smart use of the package `Matrix` to reduce memory usage for storage and iteration. Moreover, the final relational-data object retains enough information to allow users to reconstruct all information about the agents without having to keep multiple copies of the same data in different formats.
+
+# Features
+
+At this stage of development, `FinNet` provides the following:
+
+- Specialised S4 classes for financial agents (`firm`), their relations (`financial_matrix`), and interfaces to other packages (`network_financial` and `igraph_financial`);
+- Functions to register information about financial agents, including retrieving them from Yahoo! Finance;
+- Function to encode the relations between these agents and their owners or managers into incidence matrices;
+- Function to encode the relations between these agents (based on common ownership, board interlocks, or both) into adjacency matrices;
+- Function to encode the relations between these agents (based on common ownership, board interlocks, or both) into extended `network` or `igraph` objects.
+
+## Classes
+
+The package offers three S4 formal classes designed for financial data.
+
+### firm
+
+A `firm` object represents an agent (most often a firm or other legal person) as a financial entity. It has the following attributes:
+
+- *name* Name of the firm;
+- *id* an unique ID, usually its ticker;
+- *legal_form* Legal form of the firm;
+- *sector* Sector in which the firm operates;
+- *sector_classif*  Activity sector classification (if any);
+- *revenues* Yearly revenues;
+- *capitalisation* Firm's capitalisation;
+- *management* Names of the members of the board;
+- *ownership* Names of the owner(s);
+- *shares* Share owned by (each of) the owner(s);
+- *currency* Currency in which the capitalisation and revenues are expressed.
+
+All of them, except `name`, can be `NA`.
+
+The class has methods for `methods::show` and `print` that return an articulate summary
+
+```{r show_firm}
+library(FinNet)
+data("firms_US")
+firms_US$GM
+```
+
+The package also offers methods to coerce other classes into `firm` (see below).
+
+### financial_matrix
+
+A`financial_matrix` object contains an adjacency matrix represent the relations between firms (legal person) based on common ownership, board interlocks, or both. It comprises the following information:
+
+- *M* Adjacency matrix
+- *relation* Relations represented by the matrix
+- *legal_form* Legal form of the firms
+- *sector* Sector in which the firms operate
+- *revenues* Yearly revenues
+- *capitalisation* Firms' capitalisation
+- *currency* Currency in which the capitalisation and revenues are expressed.
+
+The class has methods for several generic functions:
+
+1. `methods::show`...
+
+```{r show_mat}
+data('firms_BKB')
+mat <- FF.norm.ownership(firms_BKB)
+mat
+```
+
+2. `print()`
+
+3. `rownames()` and `colnames()`
+
+4. `duplicated()`
+
+5. `isSymmetric()`
+
+6. `summary()`
+
+7. `subset()`, which subset also non-matrix attributes
+
+8. `unique()`, which extract unique elements from non-matrix attributes, too;
+
+9. `ncol()` and `nrow()`, which check whether the attributes of the FF are of the right length given the number of columns/rows.
+
+Furthermore, objects of class `financial_matrix` can be coerced to a list of objects of class `firm` using:
+
+```{r as.firm_mat}
+firms <- as.firm(mat)
+cat('firms <- as.firm(mat)')
+cat('\n\n')
+cat('The number of rows of the FF matrix was:', nrow(mat@M))
+cat('\n')
+cat('The number of firms after coercion is:', length(firms))
+```
+
+## Example workflow
+
+### From retrieving the data to an `igraph`/`sna` object
+
+A very simple workflow using this version of `FinNet` includes:
+
+After having identified the firms of interest, the package can fetch all information on them as long as `yahoofinancer` is available. So:
+
+```{r workflow_1, echo=TRUE}
+# Check if `yahoofinancer` is installed
+isTRUE(requireNamespace('yahoofinancer', quietly = TRUE))
+
+# Create a list of the desired firms
+# Note: if `SPB` is installed, a progress bar will appear
+firms <- find.firms(tickers = c('TM', 'GM', 'F', 'HMC'),
+                    name = c('Toyota', 'General Motors',
+                             'Ford', 'Honda'))
+
+# Identify common-ownership relations in a firm-firm matrix
+FF <- FF.norm.ownership(firms)
+
+# Create a simple-looking graph
+g <- FF.graph(FF, aesthetic = 'simple')
+```
+
+Some check using the S3 methods implemented for `financial_matrix` objects and the extension of some `igraph` functions allow to verify the correctness of the graph:
+
+```{r checks, echo=TRUE}
+# The order of the graph equals the number of rows in the FF matrix
+vcount_fin(g) == nrow(FF)
+
+# The names of its vertex match the row names of the FF matrix
+V_fin(g)$name == rownames(FF)
+```
+
+
+### Plotting using default *nice* aesthetics 
+
+There are also useful defaults for a visual inspection of the network.
+
+```{r workflow_2, echo=TRUE}
+# Load dataset
+data('firms_BKB')
+
+# Identify common-ownership relations in a firm-firm matrix
+FF <- FinNet::FF(firms_BKB, who = 'own',
+                 ties = 'naive', Matrix = TRUE)
+
+# Create a nice-looking graph
+g <- FF.graph(FF, aesthetic = 'nice')
+
+# Plot it
+plot_igraph_fin(g, vertex.label = NA, edge.arrow.size = .6, scale_vertex = 10)
+
+```
+
+# Comparison with potentially similar `R` packages
+
