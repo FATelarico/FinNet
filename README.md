@@ -1,17 +1,19 @@
-# FinNet: Financial network analysis in R got straight
+# FinNet: Financial network analysis in R got straight <img src="https://github.com/FATelarico/FinNet/assets/100512813/a48452d8-eb38-47d6-baf5-7f550e951028" align="right" width="120" />
 
-author: Fabio Ashtar Telarico, University of Ljubljana, FDV
-
+Author: Fabio Ashtar Telarico, University of Ljubljana, FDV
 version: 0.1
-
-![Supply chains as a financial network.](https://www.kkr.com/images/insights/images-69/charts-30.png)
-
-Source: McVey, Henry H., 'State of Play', KKR, Mar 24, 2022, [https://www.kkr.com/node/4025](https://www.kkr.com/node/4025)
+<!-- badges: start -->
+![R-CMD-check](https://github.com/stan-dev/bayesplot/workflows/R-CMD-check/badge.svg)
+<!-- badges: end --> 
 
 # Introduction
 The numerous packages helping users to deal with network data in `R` (most notably [`network`](https://statnet.org/) and [`igraph`](https://igraph.org/)) do not offer tools specific for financial networks.
 
 For years now, authors and analysts have worked on financial data using *ad-hoc* tools or programming languages other than `R`. So, the package `FinNet` was born to provide all `R` users with the ability to study financial networks with a set of tool especially designed to this purpose. Specifically, `FinNet` offers both brand new tools and an interface to the almost limitless capabilities of `igraph` and `network`.
+
+![Supply chains as a financial network.](https://www.kkr.com/images/insights/images-69/charts-30.png)
+
+Source: McVey, Henry H., 'State of Play', KKR, Mar 24, 2022, [https://www.kkr.com/node/4025](https://www.kkr.com/node/4025)
 
 The first release of `FinNet` introduces the backbone of this system, which will be expanded with new releases. A basic introduction is available in this readme. For more information, visit: [FinNet's webiste](https://fatelarico.github.io/FinNet.html)
 
