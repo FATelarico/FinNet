@@ -1,0 +1,24 @@
+#' Quickly Build and Manipulate Financial Networks
+#'
+#' Providing classes, methods, and functions to deal with financial networks.
+#' Users can easily store information about both physical and legal persons
+#' by using pre-made classes that are studied for integration with scraping
+#' packages such as 'rvest' and 'RSelenium'.
+#' Moreover, the package assists in creating various types of financial networks
+#' depending on the type of relation between its units depending on the relation
+#' under scrutiny (ownership, board interlocks, etc.), the desired tie type
+#' (valued or binary), and renders them in the most common formats (adjacency
+#' matrix, incidence matrix, edge list, 'igraph', 'network').
+#'
+#' @author \enc{Telarico, Fabio Ashtar}{Fabio Ashtar Telarico}
+#'
+#' @import Matrix grDevices methods Rcpp
+#'
+#' @name FinNet
+#'
+## usethis namespace: start
+#' @useDynLib FinNet, .registration = TRUE
+## usethis namespace: end
+#'
+#' @keywords internal
+"_PACKAGE"
