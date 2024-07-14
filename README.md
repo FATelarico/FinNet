@@ -5,7 +5,7 @@ Author: Fabio Ashtar Telarico, University of Ljubljana, FDV
 <!-- badges: start -->
 
 ![](https://img.shields.io/badge/R%20CMD-passing-brightgreen)    
-![](https://img.shields.io/badge/version-0.1.0-orange)    
+![](https://img.shields.io/badge/version-2.0.0-greem)    
 ![](https://img.shields.io/badge/CRAN-0.1.0-blue)    
 ![](https://img.shields.io/github/last-commit/fatelarico/finnet?logo=GitHub&logoColor=orange&style=plastic)
 
@@ -157,13 +157,18 @@ A simple look at the [list of packages available on `CRAN`](https://cran.r-proje
 
 The most up-to-date book on the subject, *Introduction to R for Quantitative Finance* (Daróczi et al. 2023, [125-138](https://packtpub.com/book/data/9781783280933/)) uses `igraph` do analyse the network, but offers no indications as regards data managing and network construction.
 
+# Advanced features
+With implementation in both `C++` and `R`:
+
+-   Functions to identify systematically important agents in the network (see Komárková, Hausenblas, and Frait [2012](https://www.cnb.cz/export/sites/cnb/en/financial-stability/.galleries/fs_reports/fsr_2011-2012/fsr_2011-2012_article_i.pdf); Lai and Hu [2021](https://doi.org/10.1016/j.physa.2020.125613));
+-   Different measures of centrality (see Nakamoto, Chakraborty and Ikeda [2019](https://doi.org/10.1007/s41109-019-0158-8));
+-   Estimation of systemic risk and simulating financial contagion (see Kali and Reyes [2013](https://doi.org/10.1111/j.1465-7295.2009.00249.x); and Summer [2013](https://doi.org/10.1146/annurev-financial-110112-120948)).
+
+
 # Next steps
 
 The upcoming features of the package are:
 
 -   Functions to estimate influence and influence-maximisation algorhitms (see Mizruchi and Bunting [1981] (<https://doi.org/10.2307/2392519>); Khalife, Read and Vazirgiannis [2021](https://doi.org/10.1007/s41109-021-00359-6));
--   Functions to identify systematically important agents in the network (see Komárková, Hausenblas, and Frait [2012](https://www.cnb.cz/export/sites/cnb/en/financial-stability/.galleries/fs_reports/fsr_2011-2012/fsr_2011-2012_article_i.pdf); Lai and Hu [2021](https://doi.org/10.1016/j.physa.2020.125613));
--   Different measures of centrality (see the `R` package [`centiserve`](https://www.centiserver.org/); and Nakamoto, Chakraborty and Ikeda [2019](https://doi.org/10.1007/s41109-019-0158-8));
--   Functions to estimate the systemic risk of financial contagion (see Kali and Reyes [2013](https://doi.org/10.1111/j.1465-7295.2009.00249.x); and Summer [2013](https://doi.org/10.1146/annurev-financial-110112-120948));
 -   Improve support for `network`/`sna`;
 -   Introduce a graphical interface to execute most operation.
