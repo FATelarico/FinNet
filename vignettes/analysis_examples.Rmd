@@ -1,0 +1,83 @@
+---
+title: 'Example analyses'
+subtitle: 'Use of the `fiedler`, `network.efficiency`, and `cfa` functions'
+author: |
+  | Fabio Ashtar Telarico*
+  | University of Ljubljana, FDV
+  | *Fabio-Ashtar.Telarico@fdv.uni-lj.si
+output:
+  rmarkdown::html_vignette:
+  toc: yes
+vignette: >
+  %\VignetteIndexEntry{example_analyses}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+options(
+  rmarkdown.html_vignette.check_title = FALSE
+)
+
+library(FinNet)
+library(markdown)
+```
+
+# Introduction
+This vignette illustrates how to:
+
+1. Compute the algebraic connectivity of a Firm-Firm network;
+2. Determine how efficiently information and/or money capital flow through a network;
+3. Perform cascade failure analysis.
+
+The experiments use these two datasets:
+
+```{r workflow_1, echo=TRUE}
+# Create a list of the desired firms
+data('firms_BKB')
+# Check a weakly connected subset of the network
+FF_uncnnctd <- FF(firms_BKB[20:23], who = 'own', ties = 'naive', Matrix = TRUE)
+g_uncnnctd <- FF.graph(FF_uncnnctd, 'simple')
+# Check a strongly connected subset of the network
+FF_cnnctd <- FF(firms_BKB[5:10], who = 'own', ties = 'naive', Matrix = TRUE)
+g_cnnctd <- FF.graph(FF_cnnctd, 'simple')
+# Plot to compare
+layout(matrix(1:2, nrow = 1));{
+    plot_igraph(g_uncnnctd, asp = .75)
+    text(0, 1.3, 'Weakly connected')
+    plot_igraph(g_cnnctd, asp = .75)
+    text(0, 1.3, 'Better connected')
+}
+
+```
+
+
+# 1. Algebraic connectivity
+
+The algebraic connectivity can be computed to determine the connectivity and robustness of a network. The `fiedler()` takes as inputs either a \code{financial_matrix} object produced by \code{FF} or, if the relevant package is installed, a \code{network_financial}/\code{igraph_financial} (respectively \code{network}/\code{igraph}) object.
+
+As expected, the better-connected network has higher Fiedler value ($\approx$`r round(fiedler(FF_cnnctd), 2)`) than the other one ($\approx$`r round(fiedler(FF_uncnnctd), 2)`).
+
+# 2. Efficiency analysis
+
+Network efficiency quantifies how efficiently information and/or money capital flow through a network. It is essential in systemic-risk identification, resilience assessment, and crisis-propagation analysis.
+
+As expected, the larger network has lower efficiency ($\approx$`r round(network.efficiency(FF_cnnctd), 2)`) than the smaller one ($\approx$`r round(network.efficiency(FF_uncnnctd), 2)`).
+
+# 3. Cascade failure analysis
+
+Cascade failure analysis (CFA) involves understanding how failures in one part of the network might cascade to other parts. Networks capable of isolating such failures or minimizing their effects demonstrate higher robustness.
+
+```{r workflow_4, echo=TRUE}
+cfa(FF_uncnnctd)|> knitr::kable()
+```
+
+```{r workflow_5, echo=TRUE}
+cfa(FF_cnnctd)|> knitr::kable()
+```
+

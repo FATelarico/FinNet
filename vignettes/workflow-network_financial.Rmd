@@ -1,0 +1,106 @@
+---
+title: 'Example workflow (`network`/`sna` edition)'
+subtitle: 'From data retrieval to a `network` object'
+author: |
+  | Fabio Ashtar Telarico*
+  | University of Ljubljana, FDV
+  | *Fabio-Ashtar.Telarico@fdv.uni-lj.si
+output:
+  rmarkdown::html_vignette:
+  toc: yes
+vignette: >
+  %\VignetteIndexEntry{workflow-network_financial}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+options(
+  rmarkdown.html_vignette.check_title = FALSE
+)
+
+library(FinNet)
+library(markdown)
+```
+
+# Introduction
+For years now, authors and analysts have worked on financial data using *ad-hoc* tools or programming languages other than `R`. So, the package `FinNet` was born to provide all `R` users with the ability to study financial networks with a set of tool especially designed to this purpose. Specifically, `FinNet` offers both brand new tools and an interface to the almost limitless capabilities of `igraph` and `network`.
+
+This vignette illustrates how to:
+
+1. Retrieve the desired data using [`yahoofinancer`](https://CRAN.R-project.org/package=yahoofinancer );
+2. Create the firm-firm (FF) matrix;
+3. Create the corresponding graph;
+4. Plot it with smart, nice-looking defaults.
+
+# 1. Data retrieval
+
+After having identified the firms of interest, the package can fetch all information on them as long as `yahoofinancer` is available. Otherwise, built-in data can be used:
+
+```{r workflow_1, echo=TRUE}
+# Check if `yahoofinancer` is installed
+isTRUE(requireNamespace('yahoofinancer', quietly = TRUE))
+
+# Create a list of the desired firms
+data('firms_US')
+```
+
+```{r clean, echo=FALSE, include=FALSE}
+firms <- firms_US
+rm(firms_US)
+```
+
+# 2. Matrix construction
+There are many function in the **`FF` function family** to rapidly build an adjacency matrix. In this step, `FF.norm.ownership()` will construct a normalised-valued matrix of common ownership
+
+```{r workflow_3, echo=TRUE}
+# Identify common-ownership relations in a firm-firm matrix
+FF <- FF.norm.ownership(firms)
+```
+
+# 3. Graphing
+A graph can be obtained easily using `FF.net()`, which include **two preset aesthetics**: 'simple' and 'nice'
+
+```{r workflow_4, echo=TRUE}
+# Create a simple-looking graph
+net <- FF.net(FF, aesthetic = 'simple')
+```
+
+Some checks using the S3 methods implemented for `financial_matrix` objects and the extension of some `igraph` functions allow to verify the correctness of the graph:
+
+```{r checks, echo=TRUE}
+# The order of the graph equals the number of rows in the FF matrix
+network.size(net) == nrow(FF)
+
+# The names of its vertex match the row names of the FF matrix
+vertex.names(net) == rownames(FF)
+
+# Plot it
+plot_network(net, displaylabels = TRUE, vertex.cex = 3, edge.lwd = 6)
+```
+
+
+# 4. Plotting using default *nice* aesthetics
+
+The 'nice' defaults are more indicated for a visual inspection of the network.
+net
+```{r workflow_5, echo=TRUE}
+# Load dataset
+data('firms_BKB')
+
+# Identify common-ownership relations in a firm-firm matrix
+FF <- FF(firms_BKB, who = 'own',
+         ties = 'naive', Matrix = TRUE)
+
+# Create a nice-looking graph
+net <- FF.net(FF, aesthetic = 'nice')
+
+# Plot it
+plot_network(net, displaylabels = FALSE, edge.col = 'darkgray',
+             vertex.cex = 3, edge.lwd = 1)
+```

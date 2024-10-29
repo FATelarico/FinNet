@@ -1,7 +1,7 @@
 Package: FinNet
 Type: Package
 Title: Quickly Build and Manipulate Financial Networks
-Version: 2.0
+Version: 0.2
 Authors@R: 
     person('Fabio Ashtar', 'Telarico', email = 'Fabio-Ashtar.Telarico@fdv.uni-lj.si',
                   role = c('aut','cre'), comment = c(ORCID = '0000-0002-8740-7078'))
@@ -14,7 +14,7 @@ License: GPL (>= 3)
 URL: https://fatelarico.github.io/FinNet.html
 BugReports: https://github.com/FATelarico/FinNet/issues
 Encoding: UTF-8
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Depends: 
     R (>= 2.10)
 Author: Fabio Ashtar Telarico [aut, cre]

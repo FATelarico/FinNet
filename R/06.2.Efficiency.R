@@ -31,7 +31,7 @@
 #'
 #' @author \enc{Telarico, Fabio Ashtar}{Fabio Ashtar Telarico}
 #'
-#' @references Latora, Vito, and Masimo Marchiori. 'Economic Small-World Behavior in Weighted Networks'. The European Physical Journal B - Condensed Matter and Complex Systems 32, no. 2 (1 March 2003): 249–63. \url{https://doi.org/10.1140/epjb/e2003-00095-5}.
+#' @references Latora, Vito, and Masimo Marchiori. 'Economic Small-World Behavior in Weighted Networks'. The European Physical Journal B - Condensed Matter and Complex Systems 32, no. 2 (1 March 2003): 249–63. \doi{10.1140/epjb/e2003-00095-5}.
 #' @references Floyd, Robert W. 'Algorithm 97: Shortest path'. Communications of the ACM, 5, no. 6 (1962): 345.
 #'
 #' @examples
@@ -60,13 +60,14 @@ network.efficiency <- function(..., ignore.weights = FALSE,
 
   x <- extract.matrix(x, .except.igraph = TRUE)
 
-  if(!'igraph'%in%is(x)){
 
-  }
+  # Load `Matrix` if required and check whether it is available
+  load.Matrix(x)
+  weighted <- any(!{as.vector(x)%in%0:1})&&{!ignore.weights}
 
   if(use.igraph){
     mat <- igraph::graph_from_adjacency_matrix(
-      adjmatrix = x,
+      adjmatrix = as.matrix(x),
       mode = 'directed',
       weighted = if(weighted){TRUE}else{NULL}
     )
@@ -75,11 +76,6 @@ network.efficiency <- function(..., ignore.weights = FALSE,
                            algorithm = 'dijkstra')
 
   } else {
-
-    # Load `Matrix` if required and check whether it is available
-    load.Matrix(x)
-    weighted <- !ignore.weights&&any(x!=0&x!=1)
-
     # Convert adjacency matrix to distance matrix
     # Note that 0s are turned to Inf (except diagonal elements)
     d <- ifelse(x == 0, Inf, x)

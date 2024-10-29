@@ -43,13 +43,13 @@ The same result for both \code{igraph} and \code{igraph_financial} objects
 \description{
 The following functions are implemented:
 \itemize{
- \item \code{V_fin} to retrieve the vertexes (\code{igraph::V});
- \item \code{vcount_fin} to count the vertexes (\code{igraph::vcount});
- \item \code{gorder_fin} as an alias to \code{vcount_fin} (\code{igraph::gorder});
- \item \code{E_fin} to retrieve the edges (\code{igraph::E});
- \item \code{gsize_fin} to count the edges (\code{igraph::gsize});
- \item \code{ecount_fin} as an alias to \code{gsize_fin} (\code{igraph::ecount})
- \item \code{plot_igraph_fin} to plot graphs (\code{igraph::plot.igraph}))
+ \item \code{V} to retrieve the vertexes (\code{igraph::V});
+ \item \code{vcount} to count the vertexes (\code{igraph::vcount});
+ \item \code{gorder} as an alias to \code{vcount_fin} (\code{igraph::gorder});
+ \item \code{E} to retrieve the edges (\code{igraph::E});
+ \item \code{gsize} to count the edges (\code{igraph::gsize});
+ \item \code{ecount} as an alias to \code{gsize_fin} (\code{igraph::ecount})
+ \item \code{plot_igraph} to plot graphs (\code{igraph::plot.igraph}))
 }
 }
 \details{

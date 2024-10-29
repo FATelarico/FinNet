@@ -52,7 +52,7 @@
 #' @author \enc{Telarico, Fabio Ashtar}{Fabio Ashtar Telarico}
 #'
 #' @references Fiedler, Miroslav. ‘Laplacian of Graphs and Algebraic Connectivity’. Banach Center Publications 25, no. 1 (1989): 57–70. \url{https://eudml.org/doc/267812}.
-#' @references Guo, Krystal, and Bojan Mohar. ‘Hermitian Adjacency Matrix of Digraphs and Mixed Graphs’. Journal of Graph Theory 85, no. 1 (May 2017): 217–48. \url{https://doi.org/10.1002/jgt.22057}.
+#' @references Guo, Krystal, and Bojan Mohar. ‘Hermitian Adjacency Matrix of Digraphs and Mixed Graphs’. Journal of Graph Theory 85, no. 1 (May 2017): 217–48. \doi{10.1002/jgt.22057}.
 #'
 #' @examples
 #' # Load some data

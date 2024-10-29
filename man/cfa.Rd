@@ -9,7 +9,7 @@ cfa(
   ordering = "tot",
   custom.order = NULL,
   decreasing = TRUE,
-  Rccp = ifelse(requireNamespace("Rcpp", quietly = TRUE), yes = TRUE, no = FALSE)
+  Rcpp = ifelse(requireNamespace("Rcpp", quietly = TRUE), yes = TRUE, no = FALSE)
 )
 }
 \arguments{
@@ -37,7 +37,7 @@ cfa(
  \item{if \code{FALSE} - the ordering is by increasing degree and higher in-/out-/total-degree firms are removed last}
 }}
 
-\item{Rccp}{Whether to use the \code{C++} or native-\code{R} version of the search algorithm. Defaults to \code{TRUE} if the package \code{Rcpp} is installed.}
+\item{Rcpp}{Whether to use the \code{C++} or native-\code{R} version of the search algorithm. Defaults to \code{TRUE} if the package \code{Rcpp} is installed.}
 }
 \value{
 A \code{data.frame} with one row for the result of the CFA after each node is removed. The columns report:
@@ -65,11 +65,11 @@ mat <- matrix(c(
     0, 1, 1, 0, 1, 0, 0, 0,
     0, 0, 0, 1, 0, 1, 0, 0,
     0, 0, 1, 0, 0, 0, 1, 0,
-    0, 0, 0, 0, 0, 1, 0, 0,
+   0, 0, 0, 0, 0, 1, 0, 0,
     0, 0, 0, 0, 1, 0, 1, 1
   ),ncol = 8, byrow = TRUE)
 # Add rownames
-rownames(mat) <- paste0('Firm', LETTERS[1:ncol(mat)])
+rownames(mat) <- paste0("Firm", LETTERS[1:ncol(mat)])
 
 # Create a FF matrix
 mat <- methods::new('financial_matrix',
@@ -83,7 +83,6 @@ mat <- methods::new('financial_matrix',
 
 # Notice the differnce between:
 # a. CFA with ordering by in-degree (decreasing)
-cfa(mat, ordering = 'in')
 # b. CFA with ordering by in-degree (increasing)
 cfa(mat, ordering = 'in', decreasing = FALSE)
 # But ordering by increasing (decreasing) in-degree is the
@@ -93,7 +92,7 @@ cfa(mat, ordering = 'out', decreasing = FALSE) # By out-degree (increasing)
 
 }
 \references{
-Elliott, Matthew, Benjamin Golub, and Matthew O. Jackson. ‘Financial Networks and Contagion’. American Economic Review 104, no. 10 (1 October 2014): 3115–53. \url{https://doi.org/10.1257/aer.104.10.3115}.
+Elliott, Matthew, Benjamin Golub, and Matthew O. Jackson. ‘Financial Networks and Contagion’. American Economic Review 104, no. 10 (1 October 2014): 3115–53. \doi{10.1257/aer.104.10.3115}.
 }
 \author{
 \enc{Telarico, Fabio Ashtar}{Fabio Ashtar Telarico}

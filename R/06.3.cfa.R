@@ -25,7 +25,7 @@
 #'  \item{if \code{TRUE} - the ordering is by decreasing degree and higher in-/out-/total-degree firms are removed first}
 #'  \item{if \code{FALSE} - the ordering is by increasing degree and higher in-/out-/total-degree firms are removed last}
 #'}
-#' @param Rccp Whether to use the \code{C++} or native-\code{R} version of the search algorithm. Defaults to \code{TRUE} if the package \code{Rcpp} is installed.
+#' @param Rcpp Whether to use the \code{C++} or native-\code{R} version of the search algorithm. Defaults to \code{TRUE} if the package \code{Rcpp} is installed.
 #'
 #' @return A \code{data.frame} with one row for the result of the CFA after each node is removed. The columns report:
 #' \itemize{
@@ -39,7 +39,7 @@
 #'
 #' @author \enc{Telarico, Fabio Ashtar}{Fabio Ashtar Telarico}
 #'
-#' @references Elliott, Matthew, Benjamin Golub, and Matthew O. Jackson. ‘Financial Networks and Contagion’. American Economic Review 104, no. 10 (1 October 2014): 3115–53. \url{https://doi.org/10.1257/aer.104.10.3115}.
+#' @references Elliott, Matthew, Benjamin Golub, and Matthew O. Jackson. ‘Financial Networks and Contagion’. American Economic Review 104, no. 10 (1 October 2014): 3115–53. \doi{10.1257/aer.104.10.3115}.
 #'
 #' @examples
 #' # Create a matrix
@@ -50,11 +50,11 @@
 #'     0, 1, 1, 0, 1, 0, 0, 0,
 #'     0, 0, 0, 1, 0, 1, 0, 0,
 #'     0, 0, 1, 0, 0, 0, 1, 0,
-#'     0, 0, 0, 0, 0, 1, 0, 0,
+#'    0, 0, 0, 0, 0, 1, 0, 0,
 #'     0, 0, 0, 0, 1, 0, 1, 1
 #'   ),ncol = 8, byrow = TRUE)
 #' # Add rownames
-#' rownames(mat) <- paste0('Firm', LETTERS[1:ncol(mat)])
+#' rownames(mat) <- paste0("Firm", LETTERS[1:ncol(mat)])
 #'
 #' # Create a FF matrix
 #' mat <- methods::new('financial_matrix',
@@ -68,7 +68,7 @@
 #'
 #' # Notice the differnce between:
 #' # a. CFA with ordering by in-degree (decreasing)
-#' cfa(mat, ordering = 'in')
+# cfa(mat, ordering = 'in')
 #' # b. CFA with ordering by in-degree (increasing)
 #' cfa(mat, ordering = 'in', decreasing = FALSE)
 #' # But ordering by increasing (decreasing) in-degree is the
@@ -81,7 +81,7 @@
 
 cfa <- function(..., ordering = 'tot', custom.order = NULL,
                 decreasing = TRUE,
-                Rccp = ifelse(requireNamespace('Rcpp', quietly = TRUE),
+                Rcpp = ifelse(requireNamespace('Rcpp', quietly = TRUE),
                               yes =  TRUE, no = FALSE)) {
 
   x <- ...elt(1)
@@ -90,7 +90,7 @@ cfa <- function(..., ordering = 'tot', custom.order = NULL,
 
   # Load `Matrix` if required and check whether it is available
   load.Matrix(x)
-
+  if(ordering!='random')x <- as.matrix(x)
   # Number of units
   n <- nrow(x)
 
@@ -114,9 +114,10 @@ cfa <- function(..., ordering = 'tot', custom.order = NULL,
   )
   # For degree-ordering
   if(ordering %in% c('out', 'in', 'tot')){
-    if(!is.logical(decreasing))stop(paste0(
+    if({!is.logical(decreasing)}&&!{decreasing%in%c(0,1)})stop(paste0(
       'If the `ordering` is \'out\', \'in\', or \'tot\',',
-      '`decreasing` must be logical, not ', decreasing, '!'
+      '`decreasing` must be logical (or `1` or `0`), not ',
+      decreasing, '!'
     ))
     # Turn degrees into orders
     nodes <-  order(nodes, decreasing = decreasing)
@@ -125,31 +126,23 @@ cfa <- function(..., ordering = 'tot', custom.order = NULL,
   # Prepare outputs
   sizes <- num <- numeric(n)
 
+  # Sort the units so that they are removed in the chosen order
+  x <- x[nodes, nodes]
+
   # Adapt inputs for C++ function if necesary
-  f <- ifelse(Rccp, SCC2, SCC)
+  f <- ifelse(Rcpp, SCC2, SCC)
   y <- f(x)
   sizes[1] <- max(y$sizes)
   num[1] <- y$n
-
   # For each node in the ordering
-  for(k in seq_along(nodes)[-n]) {
-    i <- nodes[k] # Select the $k^{th}$ node
-
-    # If this is not the first node
-    if(k!=1){
-      # Correct the position by accountign for other deleted
-      # nodes to the left of the current one
-      i <- k-sum(nodes[1:(k-1)]<i)
-    }
-
-    # Remove the $k^{th}$ node
-    x <- x[-nodes[i], -nodes[i]]
-
+  for(i in 1:{ncol(x)-1}){
+    # Remove the $i^{th}$ node
+    x <- matrix(x[-1, -1], nrow = nrow(x)-1, ncol = ncol(x)-1)
     # Apply the function
     y <- f(x)
-    sizes[k+1] <- max(y$sizes)
-    num[k+1] <- y$n
-  }; rm(i, k, y)
+    sizes[i+1] <- max(y$sizes)
+    num[i+1] <- y$n
+  }; rm(i, y)
 
   # Produce final data frame
   data.frame(l_scc = sizes,
