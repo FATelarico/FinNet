@@ -17,7 +17,7 @@ The numerous packages helping users to deal with network data in `R` (most notab
 
 For years now, authors and analysts have worked on financial data using *ad-hoc* tools or programming languages other than `R`. So, the package `FinNet` was born to provide all `R` users with the ability to study financial networks with a set of tool especially designed to this purpose. Specifically, `FinNet` offers both brand new tools and an interface to the almost limitless capabilities of `igraph` and `network`.
 
-![Supply chains as a financial network (From: McVey, Henry H., 'State of Play', KKR, Mar 24, 2022, <https://www.kkr.com/node/4025>).](https://www.kkr.com/images/insights/images-69/charts-30.png)
+![Supply chains as a financial network (From: McVey, Henry H., 'State of Play', KKR, Mar 24, 2022, <https://www.kkr.com/node/4025>).](https://i.pinimg.com/736x/76/9d/99/769d99093e4abf6e762f1cf7e0ef6dd3.jpg)
 
 
 
