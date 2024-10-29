@@ -5,8 +5,8 @@ Author: Fabio Ashtar Telarico, University of Ljubljana, FDV
 <!-- badges: start -->
 
 ![](https://img.shields.io/badge/R%20CMD-passing-brightgreen)    
-![](https://img.shields.io/badge/version-2.0.0-greem)    
-![](https://img.shields.io/badge/CRAN-0.1.0-blue)    
+![](https://img.shields.io/badge/version-0.2.0-greem)    
+![](https://img.shields.io/badge/CRAN-0.2.0-blue)    
 ![](https://img.shields.io/github/last-commit/fatelarico/finnet?logo=GitHub&logoColor=orange&style=plastic)
 
 <!-- badges: end -->
@@ -62,94 +62,7 @@ At this stage of development, `FinNet` provides the following:
 -   Function to encode the relations between these agents (based on common ownership, board interlocks, or both) into adjacency matrices;
 -   Function to encode the relations between these agents (based on common ownership, board interlocks, or both) into extended `network` or `igraph` objects.
 
-# Example workflow
 
-## From retrieving the data to an `igraph`/`sna` object
-
-A very simple workflow using this version of `FinNet` includes:
-
-After having identified the firms of interest, the package can fetch all information on them as long as `yahoofinancer` is available. So:
-
-``` r
-# Check if `yahoofinancer` is installed
-isTRUE(requireNamespace('yahoofinancer', quietly = TRUE))
-```
-
-```         
-## [1] TRUE
-```
-
-``` r
-# Create a list of the desired firms
-# Note: if `SPB` is installed, a progress bar will appear
-firms <- find.firms(tickers = c('TM', 'GM', 'F', 'HMC'),
-                    name = c('Toyota', 'General Motors',
-                             'Ford', 'Honda'))
-```
-
-```         
-## 
-## Progress status: 1/4
-##  [==================------------------------------------------------------]  25%
-## 
-## Progress status: 2/4
-##  [====================================------------------------------------]  50%
-## 
-## Progress status: 3/4
-##  [======================================================------------------]  75%
-## 
-## Progress status: 4/4
-##  [=========================================================================]  100%
-```
-
-``` r
-# Identify common-ownership relations in a firm-firm matrix
-FF <- FF.norm.ownership(firms)
-
-# Create a simple-looking graph
-g <- FF.graph(FF, aesthetic = 'simple')
-```
-
-Some check using the S3 methods implemented for `financial_matrix` objects and the extension of some `igraph` functions allow to verify the correctness of the graph:
-
-``` r
-# The order of the graph equals the number of rows in the FF matrix
-vcount(g) == nrow(FF)
-```
-
-```         
-## [1] TRUE
-```
-
-``` r
-# The names of its vertex match the row names of the FF matrix
-V(g)$name == rownames(FF)
-```
-
-```         
-## [1] TRUE TRUE TRUE TRUE
-```
-
-## Plotting using default *nice* aesthetics
-
-There are also useful defaults for a visual inspection of the network.
-
-``` r
-# Load dataset
-data('firms_BKB')
-
-# Identify common-ownership relations in a firm-firm matrix
-FF <- FF(firms_BKB, who = 'own',
-                 ties = 'naive', Matrix = TRUE)
-
-# Create a nice-looking graph
-g <- FF.graph(FF, aesthetic = 'nice')
-
-# Plot it
-plot_igraph(g, vertex.label = NA, edge.arrow.size = .6, scale_vertex = 10)
-```
-
-![Plot drawn using default 'nice' aesthetics](https://github.com/FATelarico/FinNet/assets/100512813/4e249390-d97d-4cc9-9fa2-4e8df37df3e8)
 
 # Comparison with potentially similar `R` packages
 
@@ -163,7 +76,6 @@ With implementation in both `C++` and `R`:
 -   Functions to identify systematically important agents in the network (see Komárková, Hausenblas, and Frait [2012](https://www.cnb.cz/export/sites/cnb/en/financial-stability/.galleries/fs_reports/fsr_2011-2012/fsr_2011-2012_article_i.pdf); Lai and Hu [2021](https://doi.org/10.1016/j.physa.2020.125613));
 -   Different measures of centrality (see Nakamoto, Chakraborty and Ikeda [2019](https://doi.org/10.1007/s41109-019-0158-8));
 -   Estimation of systemic risk and simulating financial contagion (see Kali and Reyes [2013](https://doi.org/10.1111/j.1465-7295.2009.00249.x); and Summer [2013](https://doi.org/10.1146/annurev-financial-110112-120948)).
-
 
 # Next steps
 
