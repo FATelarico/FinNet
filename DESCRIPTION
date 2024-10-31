@@ -1,7 +1,7 @@
 Package: FinNet
 Type: Package
 Title: Quickly Build and Manipulate Financial Networks
-Version: 0.2
+Version: 0.2.2
 Authors@R: 
     person('Fabio Ashtar', 'Telarico', email = 'Fabio-Ashtar.Telarico@fdv.uni-lj.si',
                   role = c('aut','cre'), comment = c(ORCID = '0000-0002-8740-7078'))
