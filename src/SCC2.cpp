@@ -1,5 +1,5 @@
 #include <Rcpp.h>
-#include <bits/stdc++.h>
+#include <vector>
 using namespace std;
 using namespace Rcpp;
 
@@ -46,7 +46,7 @@ public:
 
     vector<vector<int> > adj(n + 1);
 
-    for (int i = 0; i < a.size(); i++) {
+    for (size_t i = 0; i < a.size(); i++) {
       adj[a[i][0]].push_back(a[i][1]);
     }
 

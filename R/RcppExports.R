@@ -2,6 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 findSCC <- function(n, edges) {
-    .Call('_FinNet_findSCC', PACKAGE = 'FinNet', n, edges)
+    .Call(`_FinNet_findSCC`, n, edges)
 }
 
