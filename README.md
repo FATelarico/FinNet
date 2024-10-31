@@ -5,8 +5,8 @@ Author: Fabio Ashtar Telarico, University of Ljubljana, FDV
 <!-- badges: start -->
 
 ![](https://img.shields.io/badge/R%20CMD-passing-brightgreen)    
-![](https://img.shields.io/badge/version-0.2.0-greem)    
-![](https://img.shields.io/badge/CRAN-0.2.0-blue)    
+![](https://img.shields.io/badge/version-0.2.1-greem)    
+![](https://img.shields.io/badge/CRAN-0.2.1-blue)    
 ![](https://img.shields.io/github/last-commit/fatelarico/finnet?logo=GitHub&logoColor=orange&style=plastic)
 
 <!-- badges: end -->
