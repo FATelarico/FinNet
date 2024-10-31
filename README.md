@@ -1,12 +1,11 @@
 # FinNet: Financial network analysis in R got straight <img src="man/figures/logo.png" align="right" width="120" alt = ''/>
 
-Author: Fabio Ashtar Telarico, University of Ljubljana, FDV
+*Author: Fabio Ashtar Telarico, University of Ljubljana, FDV*
 
 <!-- badges: start -->
-
-![](https://img.shields.io/badge/R%20CMD-passing-brightgreen)    
-![](https://img.shields.io/badge/version-0.2.1-greem)    
-![](https://img.shields.io/badge/CRAN-0.2.1-blue)    
+![](https://img.shields.io/badge/R%20CMD-passing-brightgreen)
+![](https://img.shields.io/badge/version-0.2.1-greem)
+![](https://img.shields.io/badge/CRAN-0.2.1-blue)
 ![](https://img.shields.io/github/last-commit/fatelarico/finnet?logo=GitHub&logoColor=orange&style=plastic)
 
 <!-- badges: end -->
